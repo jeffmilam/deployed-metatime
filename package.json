@@ -4,7 +4,8 @@
   "scripts": {
     "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
     "node": "node ./server/server.js",
-    "client": "cd client && npm start"
+    "client": "cd client && npm start",
+    "server": "cd server && npm start"
   },
   "author": "",
   "license": "ISC",
