@@ -1,0 +1,17 @@
+{
+  "name": "metatime-deployed",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
+    "node": "node ./server/server.js",
+    "client": "cd client && npm start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "if-env": "^1.0.4"
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "description": ""
+}
