@@ -1,0 +1,5 @@
+node_modules
+client/package-lock.json
+package-lock.json
+client/src/components/.env
+server/.env
