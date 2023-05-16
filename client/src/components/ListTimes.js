@@ -3,13 +3,13 @@ import TickIcon from './TickIcon'
 import Modal from './Modal'
 import ProgressBar from './ProgressBar'
 
-const ListItem = ({ task, getData }) => {
+const ListTimes = ({ times, getData }) => {
   const [showModal, setShowModal] = useState(false)
 
   const deleteItem = async () => {
     window.location.reload()
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVERURL}/todos/${task.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVERURL}/times/${times.id}`, {
         method: 'DELETE'
       })
       console.log('Deleted')
@@ -26,18 +26,17 @@ const ListItem = ({ task, getData }) => {
       <li className="list-item">
         <div className="info-container">
           <TickIcon />
-          <p className="task-title">{task.title}</p>
-          <ProgressBar progress={task.progress}/>
+          <p className="task-title">{times.title}</p>
         </div>
 
         <div className="button-container">
           <button className="edit" onClick={() => setShowModal(true)}>EDIT</button>
           <button className='delete' onClick={deleteItem}>DELETE</button>
         </div>
-        {showModal && <Modal mode={'edit'} setShowModal={setShowModal} getData={getData} task={task}/>} 
+        {showModal && <Modal mode={'edit'} setShowModal={setShowModal} getData={getData} times={times}/>} 
       </li> 
     )
   }
   
-  export default ListItem
+  export default ListTimes
   

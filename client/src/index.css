@@ -165,6 +165,14 @@ input {
 .modal .form-title-container button:active {
     color: rgb(225, 50, 50);
 }
+.modal textarea {
+    height: 150px;
+    margin: 11px 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgb(230, 232, 236);
+    font-family: 'Trebuchet NS', Arial, sans-serif;
+}
 
 .modal form{
     display: flex;

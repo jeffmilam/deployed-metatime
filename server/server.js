@@ -14,7 +14,6 @@ app.use(express.json())
 app.get('/todos/:userEmail', async (req, res) => {
     const { userEmail } = req.params
     try {
-        //const todos = await pool.query('SELECT * FROM todos')
         const todos = await pool.query("SELECT * FROM todos WHERE user_email = $1", [userEmail])
         res.json(todos.rows)
     } catch (error) {
@@ -22,13 +21,25 @@ app.get('/todos/:userEmail', async (req, res) => {
     }
 })
 
+// Get all Times
+app.get('/times/:userEmail', async (req, res) => {
+    const { userEmail } = req.params
+    try {
+        const times = await pool.query("SELECT * FROM times WHERE user_email = $1", [userEmail])
+        res.json(times.rows)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+
 // Create a new todo
 app.post('/todos', async(req, res) => {
-    const { user_email, title, progress, date } = req.body
+    const { user_email, title, progress, date, description, timetype } = req.body
     const id = uuidv4()
-    console.log(id, user_email, title, progress, date)
+    console.log(id, user_email, title, progress, date, description, timetype)
     try {
-        const newToDo = await pool.query("INSERT INTO todos(id, user_email, title, progress, date) VALUES ($1, $2, $3, $4, $5)", [id, user_email, title, progress, date])
+        const newToDo = await pool.query("INSERT INTO todos(id, user_email, title, progress, date, description, time_type) VALUES ($1, $2, $3, $4, $5, $6, $7)", [id, user_email, title, progress, date, description, timetype])
         res.json(newToDo)
     } catch (err) {
         console.error(err)
@@ -38,9 +49,9 @@ app.post('/todos', async(req, res) => {
 // Edit a new todo
 app.put('/todos/:id', async (req, res) => {
     const { id } = req.params
-    const { user_email, title, progress, date } = req.body
+    const { user_email, title, progress, date, description, timetype } = req.body
     try {
-        const editToDo = await pool.query('UPDATE todos SET user_email = $1, title = $2, progress = $3, date = $4 WHERE id = $5;', [user_email, title, progress, date, id])
+        const editToDo = await pool.query('UPDATE todos SET user_email = $1, title = $2, progress = $3, date = $4, description = $5, time_type = $6 WHERE id = $7;', [user_email, title, progress, date, description, timetype, id])
         res.json(editToDo)
     } catch (err) {
         console.error(err)

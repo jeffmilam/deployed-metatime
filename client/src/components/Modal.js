@@ -8,12 +8,15 @@ const Modal = ({mode, setShowModal, getData, task}) => {
     user_email: editMode ? task.user_email : cookies.Email,
     title: editMode ? task.title : "",
     progress: editMode ? task.progress : 50,
-    date: editMode ? task.data : new Date()
+    date: editMode ? task.data : new Date(),
+    description: editMode ? task.description : "",
+    timetype: editMode ? task.timetype : "",
   })
 
   // Post Data
 const postData = async (e) => {
-  e.preventDefault()
+   // e.preventDefault()
+   window.location.reload()
   try {
     const response = await fetch(`${process.env.REACT_APP_SERVERURL}/todos`, {
       method: "POST",
@@ -27,7 +30,7 @@ const postData = async (e) => {
 
 // Edit Data
 const editData = async (e) => {
-  e.preventDefault()
+   e.preventDefault()
   try {
     const response = await fetch(`${process.env.REACT_APP_SERVERURL}/todos/${task.id}`, {
       method: "PUT",
@@ -49,12 +52,18 @@ const editData = async (e) => {
 
     setData(data =>({
       ...data,
-      [name] : value
+      [name] : value 
     }))
 
     console.log (data)
   }
+/* 
+Need a way of selecting time types from the database to display as the options in the form select dropdown below. 
 
+Need a way of displaying the value for time type on the task as the default value for the select dropdown when viewing or editing.
+
+Currently if you edit a task and save without switching the time types, it will save a null value for the time type.
+*/
   return ( 
     <div className="overlay">
       <div className="modal">
@@ -62,17 +71,24 @@ const editData = async (e) => {
           <h3>Let's {mode} your task.</h3>
           <button onClick={() => setShowModal(false)}>X</button>
         </div>
-
         <form>
           <input
             required
             maxLength={30}
-            placeholder=" Your task goes here"
+            placeholder=" Task title goes here"
             name="title"
             value={data.title}
             onChange={handleChange}
             />
             <br/>
+            <textarea 
+              maxLength={5000}
+              placeholder="Describe your task here"
+              name="description"
+              value={data.description}
+              onChange={handleChange}
+              />
+              <br />
             <label>Drag to select your current progress</label>
           <input
             required
@@ -84,6 +100,16 @@ const editData = async (e) => {
             value={data.progress}
             onChange={handleChange}
             />
+          <br/>
+            <select
+              name="timetype"
+              value={data.timetype}
+              onChange={handleChange}
+              >
+                <option value="Time Type 1">Time Type 1</option>
+                <option value="Time Type 2">Time Type 2</option>
+              </select>
+              <br />
           <input className={mode} type="submit" onClick={editMode ? editData: postData}/>
         </form>
       </div>
